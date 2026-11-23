@@ -25,3 +25,84 @@
                  ┌──────────▼───────────┐
                  │ Research Material    │
                  └──────────────────────┘
+
+
+
+API Scout
+│
+├── Search
+│   └── Tavily
+│
+├── Fetch
+│   └── HTTPX
+│
+├── Parse
+│   └── BeautifulSoup
+│
+├── Classify
+│   └── Source Ranker
+│
+└── Extract
+    └── Ollama + Pydantic
+
+                    API SCOUT
+                        │
+                 Research an App
+                        │
+             ┌──────────▼──────────┐
+             │   Research Engine    │
+             └──────────┬──────────┘
+                        │
+           ┌────────────▼─────────────┐
+           │  Search + Fetch + Parse  │
+           └────────────┬─────────────┘
+                        │
+           ┌────────────▼─────────────┐
+           │  Evidence Preparation    │
+           └────────────┬─────────────┘
+                        │
+           ┌────────────▼─────────────┐
+           │      Ollama / Qwen       │
+           │  Evidence interpretation │
+           │  Structured extraction   │
+           └────────────┬─────────────┘
+                        │
+           ┌────────────▼─────────────┐
+           │     Pydantic Model       │
+           └────────────┬─────────────┘
+                        │
+           ┌────────────▼─────────────┐
+           │      AppResearch         │
+           └───────────────────────────┘
+    
+             research_app("Salesforce")
+                       │
+                       ▼
+             ┌──────────────────┐
+             │ Search the Web   │
+             └────────┬─────────┘
+                      │
+                      ▼
+             ┌──────────────────┐
+             │ Fetch Web Pages  │
+             └────────┬─────────┘
+                      │
+                      ▼
+             ┌──────────────────┐
+             │ Extract Text     │
+             └────────┬─────────┘
+                      │
+                      ▼
+             ┌──────────────────┐
+             │ Prepare Evidence │
+             └────────┬─────────┘
+                      │
+                      ▼
+             ┌──────────────────┐
+             │ Ollama / Qwen    │
+             └────────┬─────────┘
+                      │
+                      ▼
+             ┌──────────────────┐
+             │ ExtractionResult │
+             └──────────────────┘

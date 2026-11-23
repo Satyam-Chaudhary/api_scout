@@ -21,6 +21,8 @@ async def main():
         print("Search score:", result["search_score"])
         print("Content preview:")
         print(result["content"][:1000])
+        print("Source type:", result["source_type"])
+        print("Source score:", result["source_score"])
 
 
 if __name__ == "__main__":

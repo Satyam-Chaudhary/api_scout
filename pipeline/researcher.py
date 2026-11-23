@@ -3,9 +3,12 @@ import asyncio
 from tools.fetcher import fetch_page
 from tools.parser import extract_text
 from tools.research import search_web
+from tools.source_ranker import classify_source
+
+from models.source import SourceRecord
 
 
-async def research_app(app_name: str) -> list[dict]:
+async def research_app(app_name: str) -> list[SourceRecord]:
 
     queries = [
         f"{app_name} official API documentation",
@@ -18,11 +21,7 @@ async def research_app(app_name: str) -> list[dict]:
     )
 
     # Flatten the nested lists
-    results = [
-        result
-        for group in search_results
-        for result in group
-    ]
+    results = [result for group in search_results for result in group]
 
     # Deduplicate by URL
     unique_results = {}
@@ -54,11 +53,17 @@ async def research_app(app_name: str) -> list[dict]:
 
             text = extract_text(page["html"])
 
+            source_info = classify_source(
+                page["url"],
+                app_name,
+            )
+
             return {
                 "title": result.get("title", ""),
                 "url": page["url"],
                 "search_score": result.get("score", 0),
                 "content": text[:12000],
+                **source_info,
             }
 
         except Exception as e:  # noqa: BLE001
@@ -70,8 +75,24 @@ async def research_app(app_name: str) -> list[dict]:
     )
 
     # Remove failed fetches
-    return [
-        result
-        for result in fetched
+    fetched = [
+        result for result in fetched
         if result is not None
     ]
+
+    # Convert fetched pages into validated SourceRecord objects
+    source_records = []
+
+    for page in fetched:
+        source_records.append(
+            SourceRecord(
+                title=page.get("title", ""),
+                url=page["url"],
+                source_type=page.get("source_type", "unknown"),
+                excerpt=page.get("content", ""),
+                search_score=page.get("search_score", 0.0),
+                source_score=page.get("source_score", 0.0),
+            )
+        )
+
+    return source_records

@@ -1,4 +1,5 @@
 from pydantic import BaseModel, Field, field_validator
+from models.claim_support import ClaimSupport
 
 from models.app_research import (
     APIAvailability,
@@ -21,10 +22,11 @@ class ExtractionResult(BaseModel):
 
     official_mcp: MCPAvailability = MCPAvailability.UNKNOWN
     mcp_url: str | None = None
+    
+    claim_sources: dict[str, list[str]] = Field(default_factory=dict)
 
     primary_blocker: str = ""
-    
-    
+
     @field_validator("mcp_url", mode="before")
     @classmethod
     def normalize_mcp_url(cls, value):

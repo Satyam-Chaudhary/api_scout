@@ -1,0 +1,9 @@
+Metadata-Version: 2.4
+Name: api-scout
+Version: 0.1.0
+Summary: Evidence-driven SaaS integration readiness research agent
+Requires-Python: >=3.12
+Requires-Dist: httpx
+Requires-Dist: pydantic
+Requires-Dist: python-dotenv
+Requires-Dist: pandas
